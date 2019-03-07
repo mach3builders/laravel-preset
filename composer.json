@@ -1,0 +1,27 @@
+{
+    "name": "mach3builders/preset",
+    "description": "Mach3builders ui preset",
+    "keywords": ["Laravel", "Preset", "Mach3builders", "ui"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Robbin Benard",
+            "email": "robbinbenard@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mach3builders\\Preset\\": "src/"
+        }
+    },
+    "require": {
+        "laravel/framework": "5.5.*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mach3builders\\Preset\\PresetServiceProvider"
+            ]
+        }
+    }
+}
