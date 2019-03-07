@@ -1,5 +1,5 @@
 {
-    "name": "mach3builders/preset",
+    "name": "mach3builders/laravel-preset",
     "description": "Mach3builders ui preset",
     "keywords": ["Laravel", "Preset", "Mach3builders", "ui"],
     "license": "MIT",
