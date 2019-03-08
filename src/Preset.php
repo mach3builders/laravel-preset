@@ -19,6 +19,8 @@ class Preset extends LaravelPreset
         static::updateMix();
         static::updateScripts();
         static::updateStyles();
+        static::updateViews();
+        static::updateRoutes();
         static::removeNodeModules();
     }
 
@@ -71,6 +73,26 @@ class Preset extends LaravelPreset
     {
         File::copy(__DIR__.'/stubs/sass/app.scss', resource_path('sass/app.scss'));
         File::delete(resource_path('sass/_variables.scss'));
+    }
+
+    /**
+     * Update the views
+     *
+     * @return void
+     */
+    protected static function updateViews()
+    {
+        File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
+    }
+
+    /**
+     * Update the views
+     *
+     * @return void
+     */
+    protected static function updateRoutes()
+    {
+        File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
     }
 }
 
