@@ -8,7 +8,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="{{ Auth::check() ? '' : 'ui-overflow-auto' }}">
     <div id="app" class="ui-layout">
         @if (Auth::check())
             <!-- Sidebar nav -->
@@ -38,9 +38,9 @@
         @endif
 
         <div class="ui-layout-view">
-            @if (Auth::check())
-                <!-- Header -->
-                <div class="ui-layout-view-header">
+            <!-- Header -->
+            <div class="ui-layout-view-header {{ Auth::check() ? '' : 'ui-transparent' }}">
+                @if (Auth::check())
                     @yield('breadcrumb')
 
                     <div class="ui-btns">
@@ -72,8 +72,22 @@
                             <i class="far fa-bars"></i>
                         </a>
                     </div>
-                </div>
-            @endif
+                @else
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-light dropdown-toggle ui-flat" data-toggle="dropdown">
+                            <span class="ui-icon-text">
+                                <i class="far fa-globe"></i>
+                                <span>Nederlands</span>
+                            </span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Nederlands</a>
+                            <a href="#" class="dropdown-item">English</a>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
 
             <!-- Main view -->
             <main class="ui-layout-view-main">
