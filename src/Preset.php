@@ -19,8 +19,7 @@ class Preset extends LaravelPreset
         static::updateMix();
         static::updateScripts();
         static::updateStyles();
-        static::updateViews();
-        static::updateRoutes();
+        static::installAuth();
         static::removeNodeModules();
     }
 
@@ -82,7 +81,6 @@ class Preset extends LaravelPreset
      */
     protected static function updateViews()
     {
-        File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
     }
 
     /**
@@ -90,9 +88,11 @@ class Preset extends LaravelPreset
      *
      * @return void
      */
-    protected static function updateRoutes()
+    protected static function installAuth()
     {
+        File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
         File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
+        File::copy(__DIR__.'/stubs/Controllers/HomeController.php', app_path('Http/Controllers/HomeController.php'));
     }
 }
 
