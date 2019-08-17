@@ -1,12 +1,16 @@
 {
     "name": "mach3builders/laravel-preset",
-    "description": "Mach3builders ui preset",
-    "keywords": ["Laravel", "Preset", "Mach3builders", "ui"],
+    "description": "Mach3Builders UI preset",
+    "keywords": ["Laravel", "Preset", "Mach3Builders", "UI"],
     "license": "MIT",
     "authors": [
         {
             "name": "Robbin Benard",
-            "email": "robbinbenard@gmail.com"
+            "email": "r.benard@mach3builders.nl"
+        },
+        {
+            "name": "Paul Kruijt",
+            "email": "pkruijt@mach3builders.nl"
         }
     ],
     "autoload": {
