@@ -1,4 +1,4 @@
-A Laravel front-end scaffolding preset for te [Mach3builders UI](http://ui.mach3builders.nl/).
+A Laravel front-end scaffolding preset for the [Mach3Builders UI](http://ui.mach3builders.nl/).
 
 ## Usage
 1. Fresh install Laravel >= 5.7.0.

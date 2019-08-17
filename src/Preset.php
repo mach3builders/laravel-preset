@@ -32,7 +32,7 @@ class Preset extends LaravelPreset
     protected static function updatePackageArray($packages)
     {
         return array_merge(
-            ['@mach3builders/ui' => '^1.2'],
+            ['@mach3builders/ui' => '^1.3.3'],
             Arr::except($packages, [
                 'bootstrap',
                 'lodash',
