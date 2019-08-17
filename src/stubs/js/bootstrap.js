@@ -1,12 +1,12 @@
 /**
- * First we bootstrap the Mach3Builders UI and initialize the core scripts.
+ * Determine whether to bootstrap the native or Vue based UI.
  */
-import '@mach3builders/ui'
+import './bootstrap-native'
+// import './bootstrap-vue'
 
 /**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
+ * Instruct jQuery to automatically add the CSRF token to all request headers.
+ * This provides simple, convenient CSRF protection for your AJAX based applications.
  */
 $.ajaxSetup({
     headers: {
