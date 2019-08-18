@@ -35,7 +35,7 @@ class Preset extends LaravelPreset
             ['@mach3builders/ui' => '^1.3.3'],
             Arr::except($packages, [
                 'bootstrap',
-                'lodash',
+                // 'lodash',
                 'popper.js',
                 'jquery',
             ])
@@ -61,6 +61,8 @@ class Preset extends LaravelPreset
     {
         File::copy(__DIR__.'/stubs/js/app.js', resource_path('js/app.js'));
         File::copy(__DIR__.'/stubs/js/bootstrap.js', resource_path('js/bootstrap.js'));
+        File::copy(__DIR__.'/stubs/js/bootstrap-native.js', resource_path('js/bootstrap-native.js'));
+        File::copy(__DIR__.'/stubs/js/bootstrap-vue.js', resource_path('js/bootstrap-vue.js'));
     }
 
     /**
@@ -90,6 +92,7 @@ class Preset extends LaravelPreset
      */
     protected static function installAuth()
     {
+        File::copyDirectory(__DIR__.'/stubs/database', base_path('database'));
         File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
         File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
         File::copy(__DIR__.'/stubs/Controllers/HomeController.php', app_path('Http/Controllers/HomeController.php'));
