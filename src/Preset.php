@@ -34,10 +34,12 @@ class Preset extends LaravelPreset
         return array_merge(
             ['@mach3builders/ui' => '^1.3.3'],
             Arr::except($packages, [
+                'axios',
                 'bootstrap',
-                // 'lodash',
+                'lodash',
                 'popper.js',
                 'jquery',
+                'vue',
             ])
         );
     }
@@ -59,10 +61,14 @@ class Preset extends LaravelPreset
      */
     protected static function updateScripts()
     {
-        File::copy(__DIR__.'/stubs/js/app.js', resource_path('js/app.js'));
-        File::copy(__DIR__.'/stubs/js/bootstrap.js', resource_path('js/bootstrap.js'));
-        File::copy(__DIR__.'/stubs/js/bootstrap-native.js', resource_path('js/bootstrap-native.js'));
-        File::copy(__DIR__.'/stubs/js/bootstrap-vue.js', resource_path('js/bootstrap-vue.js'));
+        static::deleteDirectory(resource_path('js'));
+        static::makeDirectory(resource_path('assets'));
+        static::makeDirectory(resource_path('assets/js'));
+
+        File::copy(__DIR__.'/stubs/assets/js/app.js', resource_path('assets/js/app.js'));
+        File::copy(__DIR__.'/stubs/assets/js/bootstrap.js', resource_path('assets/js/bootstrap.js'));
+        File::copy(__DIR__.'/stubs/assets/js/bootstrap-native.js', resource_path('assets/js/bootstrap-native.js'));
+        File::copy(__DIR__.'/stubs/assets/js/bootstrap-vue.js', resource_path('assets/js/bootstrap-vue.js'));
     }
 
     /**
@@ -72,8 +78,9 @@ class Preset extends LaravelPreset
      */
     protected static function updateStyles()
     {
-        File::copy(__DIR__.'/stubs/sass/app.scss', resource_path('sass/app.scss'));
-        File::delete(resource_path('sass/_variables.scss'));
+        static::deleteDirectory(resource_path('sass'));
+        static::makeDirectory(resource_path('assets/sass'));
+        File::copy(__DIR__.'/stubs/assets/sass/app.scss', resource_path('assets/sass/app.scss'));
     }
 
     /**
@@ -92,10 +99,32 @@ class Preset extends LaravelPreset
      */
     protected static function installAuth()
     {
+        File::cleanDirectory(base_path('database/migrations'));
+        File::cleanDirectory(base_path('database/seeds'));
         File::copyDirectory(__DIR__.'/stubs/database', base_path('database'));
         File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
         File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
         File::copy(__DIR__.'/stubs/Controllers/HomeController.php', app_path('Http/Controllers/HomeController.php'));
+    }
+
+    /**
+     * Helper for deleting a directory
+     */
+    private static function deleteDirectory($path)
+    {
+        if (File::exists($path)) {
+            File::deleteDirectory($path);
+        }
+    }
+
+    /**
+     * Helper for making a directory
+     */
+    private static function makeDirectory($path)
+    {
+        if (! File::exists($path)) {
+            File::makeDirectory($path);
+        }
     }
 }
 

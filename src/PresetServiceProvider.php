@@ -2,7 +2,7 @@
 
 namespace Mach3builders\Preset;
 
-use Mach3builders\Preset\Preset;
+// use Preset\Preset;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Console\PresetCommand;
 
