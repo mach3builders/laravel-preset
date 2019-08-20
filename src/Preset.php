@@ -34,7 +34,7 @@ class Preset extends LaravelPreset
     protected static function updatePackageArray($packages)
     {
         return array_merge(
-            ['@mach3builders/ui' => '^1.3.3'],
+            ['@mach3builders/ui' => '^1.3.4'],
             Arr::except($packages, [
                 'axios',
                 'bootstrap',
@@ -105,8 +105,8 @@ class Preset extends LaravelPreset
         File::cleanDirectory(base_path('database/seeds'));
         File::copyDirectory(__DIR__.'/stubs/database', base_path('database'));
         File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
+        File::copyDirectory(__DIR__.'/stubs/Controllers', app_path('Http/Controllers'));
         File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
-        File::copy(__DIR__.'/stubs/Controllers/HomeController.php', app_path('Http/Controllers/HomeController.php'));
 
         static::createDatabase();
 
