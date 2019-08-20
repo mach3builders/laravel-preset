@@ -4,6 +4,8 @@ namespace Mach3builders\Preset;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Console\Presets\Preset as LaravelPreset;
 
 class Preset extends LaravelPreset
@@ -105,6 +107,31 @@ class Preset extends LaravelPreset
         File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
         File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
         File::copy(__DIR__.'/stubs/Controllers/HomeController.php', app_path('Http/Controllers/HomeController.php'));
+
+        static::createDatabase();
+
+        Artisan::call('migrate:fresh --seed');
+    }
+
+    /**
+     * Helper for creating the new database.
+     * We need to do it this way because for every statement it always tries to connect to the database in the .env file.
+     */
+    private static function createDatabase()
+    {
+        // get the default connection name, and the database name for that connection from laravel config.
+        $connection = config('database.default');
+        $database = config("database.connections.{$connection}.database");
+
+        // set the database name to null so DB commands connect to raw mysql, not a database.
+        config(["database.connections.{$connection}.database" => null]);
+
+        // create the db if it doesn't exist.
+        DB::statement("CREATE DATABASE IF NOT EXISTS `{$database}`");
+
+        // reset database name and purge database-less connection from cache.
+        config(["database.connections.{$connection}.database" => $database ]);
+        DB::purge();
     }
 
     /**
