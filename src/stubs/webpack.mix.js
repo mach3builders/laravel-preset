@@ -1,7 +1,14 @@
 const mix = require('./node_modules/laravel-mix');
+let rootDir = 'assets/';
 
-mix.js('resources/assets/js/app.js', 'public/assets/js')
-    .sass('resources/assets/sass/app.scss', 'public/assets/css');
+mix.options({
+    fileLoaderDirs: {
+        // images: rootDir+'img',
+        fonts: rootDir+'fonts'
+    }
+})
+.js('resources/assets/js/app.js', rootDir+'js/')
+.sass('resources/assets/sass/app.scss', rootDir+'css/');
 
 if (mix.inProduction()) {
     mix.version();

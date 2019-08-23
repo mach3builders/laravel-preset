@@ -22,7 +22,12 @@ class Preset extends LaravelPreset
         static::updateScripts();
         static::updateStyles();
         static::installAuth();
+        static::installMiddlewares();
+        static::updateConfig();
         static::removeNodeModules();
+
+        exec('composer du -o');
+        exec('npm install && npm run dev');
     }
 
     /**
@@ -63,6 +68,7 @@ class Preset extends LaravelPreset
      */
     protected static function updateScripts()
     {
+        static::deleteDirectory(public_path('js'));
         static::deleteDirectory(resource_path('js'));
         static::makeDirectory(resource_path('assets'));
         static::makeDirectory(resource_path('assets/js'));
@@ -80,18 +86,34 @@ class Preset extends LaravelPreset
      */
     protected static function updateStyles()
     {
+        static::deleteDirectory(public_path('css'));
         static::deleteDirectory(resource_path('sass'));
         static::makeDirectory(resource_path('assets/sass'));
         File::copy(__DIR__.'/stubs/assets/sass/app.scss', resource_path('assets/sass/app.scss'));
     }
 
     /**
-     * Update the views
+     * Install the middlewares
      *
      * @return void
      */
-    protected static function updateViews()
+    protected static function installMiddlewares()
     {
+        File::copy(__DIR__.'/stubs/Http/Middleware/Locale.php', app_path('Http/Middleware/Locale.php'));
+        File::copy(__DIR__.'/stubs/Http/Kernel.php', app_path('Http/Kernel.php'));
+    }
+
+    /**
+     * Update config file
+     *
+     * @return void
+     */
+    protected static function updateConfig()
+    {
+        $config = require base_path('config/app.php');
+        $config['locale'] = 'nl';
+        $config['locales'] = ['nl', 'en'];
+        file_put_contents(base_path('config/app.php'), var_export($config, true));
     }
 
     /**
@@ -105,7 +127,7 @@ class Preset extends LaravelPreset
         File::cleanDirectory(base_path('database/seeds'));
         File::copyDirectory(__DIR__.'/stubs/database', base_path('database'));
         File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
-        File::copyDirectory(__DIR__.'/stubs/Controllers', app_path('Http/Controllers'));
+        File::copyDirectory(__DIR__.'/stubs/Http/Controllers', app_path('Http/Controllers'));
         File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
 
         static::createDatabase();

@@ -14,7 +14,6 @@ class PresetServiceProvider extends ServiceProvider
             Preset::install();
 
             $command->info('Mach3Builders UI scaffolding installed successfully.');
-            $command->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
         });
     }
 }
