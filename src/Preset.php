@@ -110,10 +110,12 @@ class Preset extends LaravelPreset
      */
     protected static function updateConfig()
     {
-        $config = require base_path('config/app.php');
-        $config['locale'] = 'nl';
-        $config['locales'] = ['nl', 'en'];
-        file_put_contents(base_path('config/app.php'), var_export($config, true));
+        $content = file_get_contents(base_path('config/app.php'));
+        $pattern = '/\'locale\' => \'([a-z]+)\',/';
+        $replacement = "'locale' => 'nl',\n    'locales' => ['nl', 'en'],";
+        $content = preg_replace($pattern, $replacement, $content);
+
+        file_put_contents(base_path('config/app.php'), $content);
     }
 
     /**
