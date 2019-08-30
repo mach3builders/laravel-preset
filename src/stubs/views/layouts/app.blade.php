@@ -1,47 +1,36 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-<title>{{ config('app.name', 'Mach3Builders') }}</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<meta name="robots" content="noindex, nofollow">	
-<script src="{{ asset('js/app.js') }}" defer></script>
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+@include('layouts.partials.head')
 </head>
-<body class="{{ Auth::check() ? '' : 'ui-overflow-auto' }}">
+<body>
     <div id="app" class="ui-layout">
-        @if (Auth::check())
-            <!-- Sidebar nav -->
-            <nav class="ui-layout-nav">
-                <div class="ui-layout-nav-header">
-                    <a href="/" class="ui-layout-nav-logo">
-                        {{ config('app.name', 'Mach3builders') }}
-                    </a>
+        <nav class="ui-layout-nav">
+            <div class="ui-layout-nav-header">
+                <a href="/" class="ui-layout-nav-logo">
+                    <img src="{{ asset('assets/img/logo-light.svg') }}" alt="{{ config('app.name', 'Mach3Builders') }}" class="ui-logo-sm">
+                </a>
+                <a href="/" id="ui-layout-nav-hide-handler">
+                    <i class="far fa-times"></i>
+                </a>
+            </div>
 
-                    <a href="/" id="ui-layout-nav-hide-handler">
-                        <i class="far fa-times"></i>
-                    </a>
-                </div>
-                <div class="ui-layout-nav-main">
-                    <ul class="nav nav-dark flex-column">
-                        <li class="nav-item">
-                            <a href="{{ route('home') }}" class="nav-link active">
-                                <span class="ui-icon-text">
-                                    <i class="far fa-home"></i>
-                                    <span>{{ _('Home') }}</span>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        @endif
+            <div class="ui-layout-nav-main">
+                <ul class="nav nav-dark flex-column">
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link active">
+                            <span class="ui-icon-text">
+                                <i class="far fa-tachometer"></i>
+                                <span>{{ __('Dashboard') }}</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
         <div class="ui-layout-view">
-            <!-- Header -->
-            <div class="ui-layout-view-header {{ Auth::check() ? '' : 'ui-transparent' }}">
-                @if (Auth::check())
+            <div class="ui-layout-view-header">
                     @yield('breadcrumb')
 
                     <div class="ui-btns">
@@ -54,13 +43,10 @@
                             </button>
 
                             <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Account</a>
+                                <a href="/users/{{ Auth::user()->id }}/edit" class="dropdown-item">Account</a>
 
-                                <a href="{{ route('logout') }}"
-                                    class="dropdown-item"
-                                    onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
-                                    {{ _('Logout') }}
+                                <a href="{{ route('logout') }}" class="dropdown-item" onclick="document.getElementById('logout-form').submit(); return false;">
+                                    {{ __('Logout') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -100,5 +86,7 @@
     </div>
 
     @include('ui::notify')
+
+    <script src="{{ mix('assets/js/app.js') }}"></script>
 </body>
 </html>

@@ -32,7 +32,7 @@ Route::get('change-locale/{locale}', 'LocaleController@change')->name('change-lo
 Route::middleware(['auth', 'verified', 'locale'])->group(function () {
 
     // home dashboard
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'DashboardController@index')->name('dashboard');
 
     // users
     Route::resource('users', 'UserController', ['except' => 'show']);

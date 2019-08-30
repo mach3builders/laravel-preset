@@ -18,16 +18,22 @@ class Preset extends LaravelPreset
     public static function install()
     {
         static::updatePackages();
-        static::updateMix();
+        static::updateConfig();
+        static::updateControllers();
+        static::updateTranslations();
+
+        static::updateAssetsFolders();
+        static::updateImages();
         static::updateScripts();
         static::updateStyles();
+        static::updateStyles();
+        static::updateMix();
+
         static::installAuth();
         static::installMiddlewares();
-        static::updateConfig();
-        static::removeNodeModules();
 
-        exec('composer du -o');
-        exec('npm install && npm run dev');
+        static::removeNodeModules();
+        static::runCommands();
     }
 
     /**
@@ -62,17 +68,41 @@ class Preset extends LaravelPreset
     }
 
     /**
+     * Delete and create assets folders
+     *
+     * @return void
+     */
+    protected static function updateAssetsFolders()
+    {
+        static::deleteDirectory(public_path('css'));
+        static::deleteDirectory(public_path('js'));
+        static::deleteDirectory(resource_path('sass'));
+        static::deleteDirectory(resource_path('js'));
+
+        static::makeDirectory(resource_path('assets'));
+        static::makeDirectory(resource_path('assets/img'));
+        static::makeDirectory(resource_path('assets/js'));
+        static::makeDirectory(resource_path('assets/sass'));
+    }
+
+    /**
+     * Update image files
+     *
+     * @return void
+     */
+    protected static function updateImages()
+    {
+        File::copyDirectory(__DIR__.'/stubs/assets/img', public_path('assets/img'));
+        File::delete(public_path('favicon.ico'));
+    }
+
+    /**
      * Update javascript files
      *
      * @return void
      */
     protected static function updateScripts()
     {
-        static::deleteDirectory(public_path('js'));
-        static::deleteDirectory(resource_path('js'));
-        static::makeDirectory(resource_path('assets'));
-        static::makeDirectory(resource_path('assets/js'));
-
         File::copy(__DIR__.'/stubs/assets/js/app.js', resource_path('assets/js/app.js'));
         File::copy(__DIR__.'/stubs/assets/js/bootstrap.js', resource_path('assets/js/bootstrap.js'));
         File::copy(__DIR__.'/stubs/assets/js/bootstrap-native.js', resource_path('assets/js/bootstrap-native.js'));
@@ -86,9 +116,6 @@ class Preset extends LaravelPreset
      */
     protected static function updateStyles()
     {
-        static::deleteDirectory(public_path('css'));
-        static::deleteDirectory(resource_path('sass'));
-        static::makeDirectory(resource_path('assets/sass'));
         File::copy(__DIR__.'/stubs/assets/sass/app.scss', resource_path('assets/sass/app.scss'));
     }
 
@@ -119,7 +146,7 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Update the views
+     * Install all auth related parts
      *
      * @return void
      */
@@ -129,12 +156,34 @@ class Preset extends LaravelPreset
         File::cleanDirectory(base_path('database/seeds'));
         File::copyDirectory(__DIR__.'/stubs/database', base_path('database'));
         File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
-        File::copyDirectory(__DIR__.'/stubs/Http/Controllers', app_path('Http/Controllers'));
         File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
 
         static::createDatabase();
 
         Artisan::call('migrate:fresh --seed');
+    }
+
+    /**
+     * Update the controllers
+     *
+     * @return void
+     */
+    protected static function updateControllers()
+    {
+        File::delete(app_path('Http/Controllers/HomeController.php'));
+        File::copyDirectory(__DIR__.'/stubs/Http/Controllers', app_path('Http/Controllers'));
+    }
+
+    /**
+     * Update the translation files
+     *
+     * @return void
+     */
+    protected static function updateTranslations()
+    {
+        File::copyDirectory(resource_path('lang/en'), resource_path('lang/nl'));
+        File::copyDirectory(__DIR__.'/stubs/lang/en', resource_path('lang/en'));
+        File::copyDirectory(__DIR__.'/stubs/lang/nl', resource_path('lang/nl'));
     }
 
     /**
@@ -177,6 +226,15 @@ class Preset extends LaravelPreset
             File::makeDirectory($path);
         }
     }
+
+    /**
+     * Run several commands
+     *
+     * @return void
+     */
+    private static function runCommands()
+    {
+        exec('composer du -o');
+        exec('npm install && npm run dev');
+    }
 }
-
-

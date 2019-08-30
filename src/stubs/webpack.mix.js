@@ -3,7 +3,7 @@ let rootDir = 'assets/';
 
 mix.options({
     fileLoaderDirs: {
-        // images: rootDir+'img',
+        images: rootDir+'img',
         fonts: rootDir+'fonts'
     }
 })
