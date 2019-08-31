@@ -11,9 +11,7 @@ use Illuminate\Foundation\Console\Presets\Preset as LaravelPreset;
 class Preset extends LaravelPreset
 {
     /**
-     * Install the preset
-     *
-     * @return void
+     * Install the presets.
      */
     public static function install()
     {
@@ -22,6 +20,8 @@ class Preset extends LaravelPreset
         static::updateConfig();
         static::updateControllers();
         static::updateMail();
+        static::updateModels();
+        static::updateRequests();
         static::updateTranslations();
 
         static::updateAssetsFolders();
@@ -38,9 +38,7 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Update environment file
-     *
-     * @return void
+     * Update environment file.
      */
     protected static function updateEnv()
     {
@@ -60,9 +58,7 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Update config file
-     *
-     * @return void
+     * Update config file.
      */
     protected static function updateConfig()
     {
@@ -76,9 +72,6 @@ class Preset extends LaravelPreset
 
     /**
      * Update the given package array.
-     *
-     * @param  array  $packages
-     * @return array
      */
     protected static function updatePackageArray($packages)
     {
@@ -96,42 +89,50 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Update the controllers
-     *
-     * @return void
+     * Update the controllers.
      */
     protected static function updateControllers()
     {
         File::delete(app_path('Http/Controllers/HomeController.php'));
-        File::copyDirectory(__DIR__.'/stubs/Http/Controllers', app_path('Http/Controllers'));
+        File::copyDirectory(__DIR__.'/stubs/app/Http/Controllers', app_path('Http/Controllers'));
     }
 
     /**
-     * Update the mail classes folder
-     *
-     * @return void
+     * Update the mail classes folder.
      */
     protected static function updateMail()
     {
-        File::copyDirectory(__DIR__.'/stubs/Mail', app_path('Mail'));
+        File::copyDirectory(__DIR__.'/stubs/app/Mail', app_path('Mail'));
     }
 
     /**
-     * Update the translation files
-     *
-     * @return void
+     * Update the models.
+     */
+    protected static function updateModels()
+    {
+        File::copy(__DIR__.'/stubs/app/Http/Account.php', app_path('Http/Account.php'));
+    }
+
+    /**
+     * Update the requests.
+     */
+    protected static function updateRequests()
+    {
+        File::copyDirectory(__DIR__.'/stubs/app/Http/Requests', app_path('Http/Requests'));
+    }
+
+    /**
+     * Update the translation files.
      */
     protected static function updateTranslations()
     {
         File::copyDirectory(resource_path('lang/en'), resource_path('lang/nl'));
-        File::copyDirectory(__DIR__.'/stubs/lang/en', resource_path('lang/en'));
-        File::copyDirectory(__DIR__.'/stubs/lang/nl', resource_path('lang/nl'));
+        File::copyDirectory(__DIR__.'/stubs/resources/lang/en', resource_path('lang/en'));
+        File::copyDirectory(__DIR__.'/stubs/resources/lang/nl', resource_path('lang/nl'));
     }
 
     /**
-     * Delete and create assets folders
-     *
-     * @return void
+     * Delete and create assets folders.
      */
     protected static function updateAssetsFolders()
     {
@@ -147,43 +148,35 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Update image files
-     *
-     * @return void
+     * Update image files.
      */
     protected static function updateImages()
     {
-        File::copyDirectory(__DIR__.'/stubs/assets/img', public_path('assets/img'));
+        File::copyDirectory(__DIR__.'/stubs/resources/assets/img', public_path('assets/img'));
         File::delete(public_path('favicon.ico'));
     }
 
     /**
-     * Update javascript files
-     *
-     * @return void
+     * Update javascript files.
      */
     protected static function updateScripts()
     {
-        File::copy(__DIR__.'/stubs/assets/js/app.js', resource_path('assets/js/app.js'));
-        File::copy(__DIR__.'/stubs/assets/js/bootstrap.js', resource_path('assets/js/bootstrap.js'));
-        File::copy(__DIR__.'/stubs/assets/js/bootstrap-native.js', resource_path('assets/js/bootstrap-native.js'));
-        File::copy(__DIR__.'/stubs/assets/js/bootstrap-vue.js', resource_path('assets/js/bootstrap-vue.js'));
+        File::copy(__DIR__.'/stubs/resources/assets/js/app.js', resource_path('assets/js/app.js'));
+        File::copy(__DIR__.'/stubs/resources/assets/js/bootstrap.js', resource_path('assets/js/bootstrap.js'));
+        File::copy(__DIR__.'/stubs/resources/assets/js/bootstrap-native.js', resource_path('assets/js/bootstrap-native.js'));
+        File::copy(__DIR__.'/stubs/resources/assets/js/bootstrap-vue.js', resource_path('assets/js/bootstrap-vue.js'));
     }
 
     /**
-     * Update (s)css files
-     *
-     * @return void
+     * Update (s)css files.
      */
     protected static function updateStyles()
     {
-        File::copy(__DIR__.'/stubs/assets/sass/app.scss', resource_path('assets/sass/app.scss'));
+        File::copy(__DIR__.'/stubs/resources/assets/sass/app.scss', resource_path('assets/sass/app.scss'));
     }
 
     /**
      * Update laravel.mix.js
-     *
-     * @return void
      */
     protected static function updateMix()
     {
@@ -191,16 +184,14 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Install all auth related parts
-     *
-     * @return void
+     * Install all auth related parts.
      */
     protected static function installAuth()
     {
         File::cleanDirectory(base_path('database/migrations'));
         File::cleanDirectory(base_path('database/seeds'));
         File::copyDirectory(__DIR__.'/stubs/database', base_path('database'));
-        File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
+        File::copyDirectory(__DIR__.'/stubs/resources/views', resource_path('views'));
         File::copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
 
         static::createDatabase();
@@ -209,20 +200,16 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Install the middlewares
-     *
-     * @return void
+     * Install the middlewares.
      */
     protected static function installMiddlewares()
     {
-        File::copy(__DIR__.'/stubs/Http/Middleware/Locale.php', app_path('Http/Middleware/Locale.php'));
-        File::copy(__DIR__.'/stubs/Http/Kernel.php', app_path('Http/Kernel.php'));
+        File::copy(__DIR__.'/stubs/app/Http/Middleware/Locale.php', app_path('Http/Middleware/Locale.php'));
+        File::copy(__DIR__.'/stubs/app/Http/Kernel.php', app_path('Http/Kernel.php'));
     }
 
     /**
-     * Run several commands
-     *
-     * @return void
+     * Run several commands.
      */
     private static function runCommands()
     {
@@ -252,7 +239,7 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Helper for deleting a directory
+     * Helper for deleting a directory.
      */
     private static function deleteDirectory($path)
     {
@@ -262,7 +249,7 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Helper for making a directory
+     * Helper for making a directory.
      */
     private static function makeDirectory($path)
     {

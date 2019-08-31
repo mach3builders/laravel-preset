@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
-use Validator;
-
 use App\Account;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAccountRequest;
 use App\Mail\ActivateRegistration;
 use App\User;
 
@@ -33,32 +32,21 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'max:255', 'confirmed'],
-        ]);
-    }
-
-    /**
      * Create a new account plus a user instance after a valid registration.
      * Also send an activate registration mail.
      */
     protected function create(array $data)
     {
+        dd($data);
         $account = Account::create([
-            'name' => $data['company_name'],
-            'contact' => $data['name'],
+            'name' => $data['name'],
+            'contact' => $data['contact'],
             'email' => $data['email'],
         ]);
 
         $user = User::create([
             'account_id' => $account->id,
-            'name' => $data['name'],
+            'name' => $data['contact'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'token' => Str::random(40),
@@ -72,11 +60,9 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      */
-    public function register(Request $request)
+    public function register(StoreAccountRequest $request)
     {
-        $this->validator($request->all())->validate();
-
-        event(new Registered($this->create($request->all())));
+        event(new Registered($this->create($request->validated())));
 
         alert(__('register.account-created'))->type('success');
         return redirect('/register');

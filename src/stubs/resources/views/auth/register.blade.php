@@ -7,15 +7,15 @@
             @csrf
 
             <div class="form-group">
-                <label for="company_name">{{ trans('register.company-name') }}</label>
-                <input id="company_name" name="company_name" type="text" class="form-control{{ $errors->has('company_name') ? ' is-invalid' : '' }}" value="{{ old('company_name') }}" autofocus>
+                <label for="name">{{ trans('register.name') }}</label>
+                <input id="name" name="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" autofocus>
             </div>
 
             <div class="form-group ui-required">
-                <label for="name">{{ __('register.name') }}</label>
-                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}">
-                @if ($errors->has('name'))
-                    <span class="invalid-feedback">{{ $errors->first('name') }}</span>
+                <label for="contact">{{ __('register.contact') }}</label>
+                <input id="contact" type="text" class="form-control{{ $errors->has('contact') ? ' is-invalid' : '' }}" name="contact" value="{{ old('contact') }}">
+                @if ($errors->has('contact'))
+                    <span class="invalid-feedback">{{ $errors->first('contact') }}</span>
                 @endif
             </div>
 
