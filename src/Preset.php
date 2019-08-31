@@ -17,15 +17,16 @@ class Preset extends LaravelPreset
      */
     public static function install()
     {
+        static::updateEnv();
         static::updatePackages();
         static::updateConfig();
         static::updateControllers();
+        static::updateMail();
         static::updateTranslations();
 
         static::updateAssetsFolders();
         static::updateImages();
         static::updateScripts();
-        static::updateStyles();
         static::updateStyles();
         static::updateMix();
 
@@ -34,6 +35,43 @@ class Preset extends LaravelPreset
 
         static::removeNodeModules();
         static::runCommands();
+    }
+
+    /**
+     * Update environment file
+     *
+     * @return void
+     */
+    protected static function updateEnv()
+    {
+        $content = file_get_contents(base_path('.env'));
+
+        $pattern = '/APP_NAME=(.*)+/';
+        $replacement = "APP_NAME=Mach3Builders";
+        $content = preg_replace($pattern, $replacement, $content);
+
+        if (!stristr($content, 'APP_EMAIL_FROM')) {
+            $pattern = '/APP_URL=(.*)/';
+            $replacement = "APP_URL=$1\nAPP_EMAIL_FROM=info@mach3builders.nl";
+            $content = preg_replace($pattern, $replacement, $content);
+        }
+
+        file_put_contents(base_path('.env'), $content);
+    }
+
+    /**
+     * Update config file
+     *
+     * @return void
+     */
+    protected static function updateConfig()
+    {
+        $content = file_get_contents(base_path('config/app.php'));
+        $pattern = '/\'locale\' => \'([a-z]+)\',/';
+        $replacement = "'locale' => 'nl',\n    'locales' => ['nl', 'en'],";
+        $content = preg_replace($pattern, $replacement, $content);
+
+        file_put_contents(base_path('config/app.php'), $content);
     }
 
     /**
@@ -58,13 +96,36 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Update laravel.mix.js
+     * Update the controllers
      *
      * @return void
      */
-    protected static function updateMix()
+    protected static function updateControllers()
     {
-        File::copy(__DIR__.'/stubs/webpack.mix.js', base_path('webpack.mix.js'));
+        File::delete(app_path('Http/Controllers/HomeController.php'));
+        File::copyDirectory(__DIR__.'/stubs/Http/Controllers', app_path('Http/Controllers'));
+    }
+
+    /**
+     * Update the mail classes folder
+     *
+     * @return void
+     */
+    protected static function updateMail()
+    {
+        File::copyDirectory(__DIR__.'/stubs/Mail', app_path('Mail'));
+    }
+
+    /**
+     * Update the translation files
+     *
+     * @return void
+     */
+    protected static function updateTranslations()
+    {
+        File::copyDirectory(resource_path('lang/en'), resource_path('lang/nl'));
+        File::copyDirectory(__DIR__.'/stubs/lang/en', resource_path('lang/en'));
+        File::copyDirectory(__DIR__.'/stubs/lang/nl', resource_path('lang/nl'));
     }
 
     /**
@@ -120,29 +181,13 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Install the middlewares
+     * Update laravel.mix.js
      *
      * @return void
      */
-    protected static function installMiddlewares()
+    protected static function updateMix()
     {
-        File::copy(__DIR__.'/stubs/Http/Middleware/Locale.php', app_path('Http/Middleware/Locale.php'));
-        File::copy(__DIR__.'/stubs/Http/Kernel.php', app_path('Http/Kernel.php'));
-    }
-
-    /**
-     * Update config file
-     *
-     * @return void
-     */
-    protected static function updateConfig()
-    {
-        $content = file_get_contents(base_path('config/app.php'));
-        $pattern = '/\'locale\' => \'([a-z]+)\',/';
-        $replacement = "'locale' => 'nl',\n    'locales' => ['nl', 'en'],";
-        $content = preg_replace($pattern, $replacement, $content);
-
-        file_put_contents(base_path('config/app.php'), $content);
+        File::copy(__DIR__.'/stubs/webpack.mix.js', base_path('webpack.mix.js'));
     }
 
     /**
@@ -164,26 +209,25 @@ class Preset extends LaravelPreset
     }
 
     /**
-     * Update the controllers
+     * Install the middlewares
      *
      * @return void
      */
-    protected static function updateControllers()
+    protected static function installMiddlewares()
     {
-        File::delete(app_path('Http/Controllers/HomeController.php'));
-        File::copyDirectory(__DIR__.'/stubs/Http/Controllers', app_path('Http/Controllers'));
+        File::copy(__DIR__.'/stubs/Http/Middleware/Locale.php', app_path('Http/Middleware/Locale.php'));
+        File::copy(__DIR__.'/stubs/Http/Kernel.php', app_path('Http/Kernel.php'));
     }
 
     /**
-     * Update the translation files
+     * Run several commands
      *
      * @return void
      */
-    protected static function updateTranslations()
+    private static function runCommands()
     {
-        File::copyDirectory(resource_path('lang/en'), resource_path('lang/nl'));
-        File::copyDirectory(__DIR__.'/stubs/lang/en', resource_path('lang/en'));
-        File::copyDirectory(__DIR__.'/stubs/lang/nl', resource_path('lang/nl'));
+        exec('composer du -o');
+        // exec('npm install && npm run dev');
     }
 
     /**
@@ -225,16 +269,5 @@ class Preset extends LaravelPreset
         if (! File::exists($path)) {
             File::makeDirectory($path);
         }
-    }
-
-    /**
-     * Run several commands
-     *
-     * @return void
-     */
-    private static function runCommands()
-    {
-        exec('composer du -o');
-        exec('npm install && npm run dev');
     }
 }

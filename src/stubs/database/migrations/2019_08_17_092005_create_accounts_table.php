@@ -15,7 +15,7 @@ class CreateAccountsTable extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('contact');
             $table->string('email');
             $table->string('phone')->nullable();
@@ -23,6 +23,7 @@ class CreateAccountsTable extends Migration
             $table->string('zipcode')->nullable();
             $table->string('city')->nullable();
             $table->integer('country_id')->unsigned()->nullable();
+            $table->string('token');
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class AccountsTableSeeder extends Seeder
@@ -21,6 +22,7 @@ class AccountsTableSeeder extends Seeder
             'zipcode' => '2993 LD',
             'city' => 'Barendrecht',
             'country_id' => 154, # Netherlands
+            'token' => Str::random(40),
             'created_at' => Carbon::now(),
         ]);
     }
