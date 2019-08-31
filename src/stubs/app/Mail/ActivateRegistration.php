@@ -3,7 +3,8 @@
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
-use App\Facades\Label;
+use App\Account;
+use App\User;
 
 class ActivateRegistration extends Mailable
 {
@@ -29,7 +30,10 @@ class ActivateRegistration extends Mailable
     public function build()
     {
         return $this->subject(trans('mail.activate-registration-subject'))
-                    ->from(Label::get('email'), Label::get('name'))
-                    ->view('mail.activate-registration', ['account' => $this->account, 'user' => $this->user]);
+                    ->from(env('APP_EMAIL_FROM'), env('APP_NAME'))
+                    ->view('mail.activate-registration', [
+                        'account' => $this->account,
+                        'user' => $this->user,
+                    ]);
     }
 }

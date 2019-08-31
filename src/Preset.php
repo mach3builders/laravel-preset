@@ -48,6 +48,26 @@ class Preset extends LaravelPreset
         $replacement = "APP_NAME=Mach3Builders";
         $content = preg_replace($pattern, $replacement, $content);
 
+        $pattern = '/MAIL_HOST=(.*)+/';
+        $replacement = "MAIL_HOST=smtp.gmail.com";
+        $content = preg_replace($pattern, $replacement, $content);
+
+        $pattern = '/MAIL_PORT=(.*)+/';
+        $replacement = "MAIL_PORT=25";
+        $content = preg_replace($pattern, $replacement, $content);
+
+        $pattern = '/MAIL_USERNAME=(.*)+/';
+        $replacement = "MAIL_USERNAME=mach3builders";
+        $content = preg_replace($pattern, $replacement, $content);
+
+        $pattern = '/MAIL_PASSWORD=(.*)+/';
+        $replacement = "MAIL_PASSWORD=Mach123Fastest";
+        $content = preg_replace($pattern, $replacement, $content);
+
+        $pattern = '/MAIL_ENCRYPTION=(.*)+/';
+        $replacement = "MAIL_ENCRYPTION=tls";
+        $content = preg_replace($pattern, $replacement, $content);
+
         if (!stristr($content, 'APP_EMAIL_FROM')) {
             $pattern = '/APP_URL=(.*)/';
             $replacement = "APP_URL=$1\nAPP_EMAIL_FROM=info@mach3builders.nl";
@@ -110,7 +130,8 @@ class Preset extends LaravelPreset
      */
     protected static function updateModels()
     {
-        File::copy(__DIR__.'/stubs/app/Http/Account.php', app_path('Http/Account.php'));
+        File::copy(__DIR__.'/stubs/app/Account.php', app_path('Account.php'));
+        File::copy(__DIR__.'/stubs/app/User.php', app_path('User.php'));
     }
 
     /**

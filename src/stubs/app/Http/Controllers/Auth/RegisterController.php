@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -37,11 +38,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        dd($data);
         $account = Account::create([
             'name' => $data['name'],
             'contact' => $data['contact'],
             'email' => $data['email'],
+            'token' => Str::random(40),
         ]);
 
         $user = User::create([
@@ -49,7 +50,6 @@ class RegisterController extends Controller
             'name' => $data['contact'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'token' => Str::random(40),
         ]);
 
         Mail::to($data['email'])->send(new ActivateRegistration($account, $user));
