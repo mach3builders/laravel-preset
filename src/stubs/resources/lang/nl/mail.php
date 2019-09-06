@@ -1,19 +1,19 @@
 <?php
 return [
-	'registration-done-title' => 'Your account has been created!',
-	'registration-done-body' => 'We have sent an activation link to :email.',
-	'activate-registration-subject' => 'Activate your '.env('APP_NAME').' account',
-	'activate-registration-body' => 'Great that you have created an account at '.env('APP_NAME').'!<br />
-									    Confirm your account by clicking the button below.<br /><br />
-										<a href=":link" style="background-color:#2ea1f8;border-radius:3px;color:#ffffff;display:inline-block;font-size:11px;font-weight:bold;padding-top:8px;padding-bottom:8px;padding-right:27px;padding-left:27px;text-decoration:none;text-transform:uppercase;">Activate account</a>',
-    'password-reset-body' => 'We\'re sending you this email because we received a request to reset your password.<br />
-                                If you have not requested it yourself then you can ignore this mail.<br />
-                                If you do want to renew your password, please click on the button below:<br><br>
-								<a href=":link" style="background-color:#2ea1f8;border-radius:3px;color:#ffffff;display:inline-block;font-size:11px;font-weight:bold;padding-top:8px;padding-bottom:8px;padding-right:27px;padding-left:27px;text-decoration:none;text-transform:uppercase;">Reset password</a>',
-	'password-reset-subject' => 'Request new password for '. env('APP_NAME'),
-	'salutation' => 'Dear :name,',
-	'signature' => 'Best regards,<br />
+	'registration-done-title' => 'Jouw account is aangemaakt!',
+	'registration-done-body' => 'Wij hebben een activatielink verzonden naar :email.',
+	'activate-registration-subject' => 'Activeer jouw '.env('APP_NAME').' account',
+	'activate-registration-body' => 'Super dat je een account hebt aangemaakt bij '.env('APP_NAME').'!<br />
+                                        Bevestig jouw account door op de onderstaande knop te klikken.<br /><br />
+                                        <a href=":link" style="background-color:#2ea1f8;border-radius:3px;color:#ffffff;display:inline-block;font-size:11px;font-weight:bold;padding-top:8px;padding-bottom:8px;padding-right:27px;padding-left:27px;text-decoration:none;text-transform:uppercase;">Account activeren</a>',
+    'password-reset-body-1' => 'We sturen je deze e-mail omdat we een aanvraag hebben gekregen om jouw wachtwoord te resetten.<br />
+                                Als je dit niet zelf hebt aangevraagd dan kan je deze mail negeren.
+                                Wil je het wachtwoord wel vernieuwen? Klik dan op de onderstaande button:<br><br>
+								<a href=":link" style="background-color:#2ea1f8;border-radius:3px;color:#ffffff;display:inline-block;font-size:11px;font-weight:bold;padding-top:8px;padding-bottom:8px;padding-right:27px;padding-left:27px;text-decoration:none;text-transform:uppercase;">Wachtwoord resetten</a>',
+	'password-reset-subject' => 'Nieuw wachtwoord aanvragen voor '. env('APP_NAME'),
+	'salutation' => 'Beste :name,',
+	'signature' => 'Met vriendelijke groet,<br />
 					'.env('APP_NAME'),
-	'signature-simple' => 'Best regards,',
-	'footer' => env('APP_NAME').' is made possible by',
+	'signature-simple' => 'Met vriendelijke groet,',
+	'footer' => env('APP_NAME').' is mogelijk gemaakt door',
 ];
