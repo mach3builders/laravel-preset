@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\Request;
 
 class LocaleController extends Controller
 {
     /**
      * Change the language/locale
      */
-    public function change($locale)
+    public function change(Request $request)
     {
-        $cookie = null;
-
-        if (in_array($locale, config('app.locales'))) {
-            $cookie = Cookie::forever('locale', $locale);
+        if (in_array($request->locale, config('app.locales'))) {
+            app()->setLocale($request->locale);
+            session(['locale' => $request->locale]);
         }
 
-        return redirect()->back()->cookie($cookie);
+        return redirect()->back();
     }
 }

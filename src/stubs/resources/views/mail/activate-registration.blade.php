@@ -5,10 +5,7 @@
 		{!! __('mail.salutation', ['name' => $user->name]) !!}
 	</h3>
 	<p style="font-size: 15px; line-height: 1.6; margin: 0 0 36px 0; padding: 0;">
-		{!! __('mail.activate-registration-body-1') !!}
-	</p>
-	<p style="color: #1b2431; font-weight: normal; font-size: 14px; line-height: 1.6; margin: 0 0 36px 0; padding: 0;">
-		{!! __('mail.activate-registration-body-2', ['link' => url('register/activate/'.$account->id.'/'.$account->token.'?e='.$user->email)]) !!}
+        {!! __('mail.activate-registration-body', ['link' => url('register/activate/'.$account->id.'/'.$account->token.'?e='.$user->email)]) !!}
 	</p>
 	<p style="font-size: 13px; line-height: 1.6; margin: 0 0 36px 0; padding: 0;">
 		{!! __('mail.signature') !!}
