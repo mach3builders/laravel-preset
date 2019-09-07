@@ -25,7 +25,7 @@
                 <div class="ui-container-xs">
                     <div class="d-flex justify-content-center mb-5">
                         <a href="/">
-                            <img src="{{ asset('assets/img/logo-dark.svg') }}" alt="{{ config('app.name', 'Mach3Builders') }}" class="ui-logo">
+                            <img src="{{ asset('assets/img/logo-dark.svg') }}" alt="{{ config('app.name', 'Mach3Builder') }}" class="ui-logo">
                         </a>
                     </div>
 

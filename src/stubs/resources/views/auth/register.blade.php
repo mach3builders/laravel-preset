@@ -10,7 +10,7 @@
 
                 <div class="form-group">
                     <label for="name">{{ trans('register.name') }}</label>
-                    <input id="name" name="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" autofocus>
+                    <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" autofocus>
                 </div>
 
                 <div class="form-group ui-required">

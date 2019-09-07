@@ -3,7 +3,7 @@
 @section('content')
 <div class="ui-container-xs">
     <div class="d-flex justify-content-center mb-5">
-        <h1>{{ config('app.name', 'Mach3builders') }}</h1>
+        <h1>{{ config('app.name', 'Mach3Builder') }}</h1>
     </div>
 
     <div class="card ui-radius-lg ui-shadow-xxl">

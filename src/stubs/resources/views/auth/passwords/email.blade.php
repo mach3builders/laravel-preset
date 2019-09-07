@@ -1,30 +1,19 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
-<div class="ui-container-xs">
-    <div class="d-flex justify-content-center mb-5">
-        <h1>{{ config('app.name', 'Mach3builders') }}</h1>
-    </div>
-    
-    @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status') }}
-        </div>
-    @endif
+    @include('ui::alert')
 
     <div class="card ui-radius-lg ui-shadow-xxl">
         <div class="card-body ui-spacer-xl">
 
-            <form method="POST" action="{{ route('password.email') }}">
+            <form method="POST" action="{{ route('forgot-password') }}">
                 @csrf
 
                 <div class="form-group">
-                    <label for="email">{{ __('E-Mail Address') }}</label>
-
+                    <label for="email">{{ __('passwords.email') }}</label>
                     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}">
-
                     @if ($errors->has('email'))
-                        <span class="invalid-feedback" role="alert">
+                        <span class="invalid-feedback">
                             <strong>{{ $errors->first('email') }}</strong>
                         </span>
                     @endif
@@ -32,14 +21,14 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block btn-lg">
-                        {{ __('Reset Password') }}
+                        {{ __('passwords.request-password') }}
                     </button>
                 </div>
             </form>
         </div>
-        
+
         <div class="card-footer d-flex justify-content-between ui-spacer-xl">
-            <a href="{{ route('login') }}" class="text-decoration-none"><strong>{{ __('Login') }}</strong></a>
+            <a href="{{ route('login') }}" class="text-decoration-none"><strong>{{ __('passwords.login') }}</strong></a>
         </div>
     </div>
 </div>

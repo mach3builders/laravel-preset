@@ -8,7 +8,7 @@
         <nav class="ui-layout-nav">
             <div class="ui-layout-nav-header">
                 <a href="/" class="ui-layout-nav-logo">
-                    <img src="{{ asset('assets/img/logo-light.svg') }}" alt="{{ config('app.name', 'Mach3Builders') }}" class="ui-logo-sm">
+                    <img src="{{ asset('assets/img/logo-light.svg') }}" alt="{{ config('app.name', 'Mach3Builder') }}" class="ui-logo-sm">
                 </a>
                 <a href="/" id="ui-layout-nav-hide-handler">
                     <i class="far fa-times"></i>
@@ -44,14 +44,9 @@
 
                         <div class="dropdown-menu">
                             <a href="/users/{{ Auth::user()->id }}/edit" class="dropdown-item">{{ __('common.account') }}</a>
-
-                            <a href="{{ route('logout') }}" class="dropdown-item" onclick="document.getElementById('logout-form').submit(); return false;">
+                            <a href="{{ route('logout') }}" class="dropdown-item">
                                 {{ __('common.logout') }}
                             </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
                         </div>
                     </div>
 

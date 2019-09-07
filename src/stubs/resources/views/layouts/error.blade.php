@@ -8,7 +8,7 @@
         <div class="ui-layout-view">
             <div class="ui-layout-view-header">
                 <a href="/" class="ml-0">
-                    <img src="{{ asset('assets/img/logo-dark.svg') }}" alt="{{ config('app.name', 'Mach3Builders') }}" class="ui-logo-sm">
+                    <img src="{{ asset('assets/img/logo-dark.svg') }}" alt="{{ config('app.name', 'Mach3Builder') }}" class="ui-logo-sm">
                 </a>
             </div>
 
