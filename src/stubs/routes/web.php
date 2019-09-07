@@ -14,7 +14,7 @@ Route::middleware(['locale'])->group(function () {
     // registration
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register');
-    Route::get('register/activate/{id}/{token}', 'Auth\RegisterController@activateRegistration')->name('activate-registration');
+    Route::get('register/activate/{id}/{token}', 'Auth\RegisterController@activate')->name('activate-registration');
 
     // password reset
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('forgot-password');
